@@ -38,31 +38,158 @@
   animation: gradientMove 3s ease-in-out infinite alternate;
   text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
 }
+
 .content button {
-  background: transparent;
-  border: 2px solid #fff;
-  outline: none;
+  background: #1a1a1a; /* Dark solid background */
+  border: 2px solid transparent; /* Transparent initial border */
   padding: 12px 25px;
-  color: #fff;
+  color: #fff; /* Default text color */
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-top: 30px;
   cursor: pointer;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden; /* Clip glowing effects */
+  font-weight: bold; /* Make text bold for clarity */
 }
+
+.content button::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    #ff007f,
+    #0ff1ce,
+    #ff007f
+  ); /* Vibrant gradient */
+  filter: blur(15px); /* Smooth glowing effect */
+  opacity: 0.7;
+  z-index: 0; /* Behind button content */
+  transition: all 0.3s ease-in-out;
+}
+
+.content button:hover::before {
+  transform: scale(1.1); /* Slightly expand the glow */
+  opacity: 1; /* Intensify glow */
+}
+
 .content button img {
   width: 15px;
   margin-left: 10px;
+  transition: transform 0.3s ease-in-out;
+  z-index: 1; /* Ensure image is above glow */
+}
+
+.content button span {
+  z-index: 1; /* Ensure text is above glow */
+  position: relative;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add shadow to text for better contrast */
+}
+
+.content button:hover {
+  background: rgba(10, 10, 10, 0.8); /* Slightly lighter dark background */
+  border: 2px solid #ff007f; /* Add solid border for modern look */
+  box-shadow: -5px -5px 30px rgba(255, 0, 127, 0.6),
+    -5px -5px 30px rgba(15, 241, 206, 0.5); /* Apply shadow on hover */
+  color: #e0e0e0;
+}
+
+.content button:active {
+  transform: scale(0.95); /* Slight press effect */
+  box-shadow: 0 0 20px #ff007f, 0 0 15px #0ff1ce; /* Dim glow */
+}
+
+.content button img.rotate {
+  transform: rotate(180deg);
+}
+
+.content button:hover img {
+  transform: none; /* Use CSS variable for rotation */
+}
+
+#infoText {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out,
+    visibility 0.3s ease-in-out;
+}
+
+#infoText.show {
+  opacity: 1;
+  visibility: visible;
+  max-height: 100px; /* Adjust as needed for text height */
 }
 
 .launch-time {
   display: flex;
 }
-.launch-time {
+.launch-time div {
   flex-basis: 100px;
 }
-.launch-time {
+.launch-time div p {
   font-size: 60px;
-  margin-bottom: -14px;
+  margin-bottom: -1px;
+}
+.launch-time div span {
+  margin-left: 5px;
+}
+
+.rocket {
+  width: 250px;
+  position: absolute;
+  right: 10%;
+  bottom: 10px;
+  animation: rocket 6s ease-in-out infinite,
+    glowing 1.5s ease-in-out infinite alternate;
+  transform-origin: center bottom;
+  filter: drop-shadow(0 0 10px #0ff1ce) drop-shadow(0 0 20px #ff007f);
+}
+
+@keyframes rocket {
+  0% {
+    bottom: 10px;
+    opacity: 0;
+    transform: scale(0.5) rotate(0deg);
+  }
+  10% {
+    opacity: 1;
+    transform: scale(1.1) rotate(-5deg);
+  }
+  50% {
+    transform: scale(1) rotate(0deg);
+  }
+  90% {
+    opacity: 1;
+    transform: scale(1.1) rotate(-5deg);
+  }
+  100% {
+    bottom: 110%;
+    opacity: 0;
+    transform: scale(0.5) rotate(-10deg);
+  }
+}
+
+@keyframes glowing {
+  0% {
+    filter: drop-shadow(0 0 10px #0ff1ce) drop-shadow(0 0 20px #0ff1ce);
+  }
+  100% {
+    filter: drop-shadow(0 0 20px #ff007f) drop-shadow(0 0 30px #ff007f);
+  }
 }
 
 @keyframes gradientMove {
