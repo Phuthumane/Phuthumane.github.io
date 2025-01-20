@@ -13,58 +13,80 @@
 
 <body>
     <div class="container">
-        <img src="images/logo_transparent.png" class="logo">
+        <div class="header-container">
+            <button type="button" class="top-right-button">Get in touch</button>
+        </div>
 
         <div class="content">
-            <p>Coming Soon</p>
             <h1>We're<span> Launching</span> Soon</h1>
             <div class="launch-time">
                 <div>
                     <p id="days">00</p>
                     <span>Days</span>
                 </div>
-
                 <div>
                     <p id="hours">00</p>
                     <span>Hours</span>
                 </div>
-
                 <div>
                     <p id="minutes">00</p>
                     <span>Minutes</span>
                 </div>
-
                 <div>
                     <p id="seconds">00</p>
                     <span>Seconds</span>
                 </div>
-
-
             </div>
-            <!--<p>Get ready for something amazing! We're working hard to bring you a cutting-edge experience that will help
-                you unlock the full potential of the web.</p>
-            <p>Stay tuned for updates and be the first to explore Maximus Web Creations – where we craft the web to the
-                fullest!</p>-->
-            <button type="button" onclick="toggleText()"><span>Learn More</span><img src="images/triangle.png"></button>
-            <p id="infoText" class="hidden">This website is about providing innovative solutions for space exploration
-                enthusiasts. Stay tuned for more updates!</p>
 
+            <button type="button" onclick="toggleText()">
+                <span>Learn More</span>
+                <img src="images/triangle.png" alt="Toggle">
+            </button>
+            <p id="infoText" class="hidden">While this isn't the final product I envisioned, I'm excited to give you a
+                preview of what's to come! Due to time constraints, I've created this "Coming Soon" page as a<br>
+                placeholder while I continue to develop my portfolio. Rest assured, I'm putting in the work to craft a
+                site that showcases my skills, creativity, and commitment to excellence.<br> Stay tuned for a full
+                experience that will reflect my dedication to delivering something truly impactful.</p>
+
+            <div class="subscription">
+                <p class="cta-text"><span>Don't</span> miss out on our latest <span id="update">updates</span> and
+                    <span>offers!</span>
+                </p>
+                <form name="subscribe" method="POST" data-netlify="true">
+                    <input type="email" id="emailInput" placeholder="Email Address" required>
+                    <button type="submit" class="sub-btn">Subscribe</button>
+                </form>
+
+                <!-- Hidden thank-you message -->
+                <div id="thankYouMessage" class="thank-you-hidden">
+                    <p>Thank you for subscribing! We'll keep you updated.</p>
+                </div>
+            </div>
+
+            <p id="link-text">Get in Touch</p>
+
+            <div class="links">
+                <a href="https://www.instagram.com/maximus_maliemah"><img src="images/instagram.png"
+                        alt="Instagram"></a>
+                <a href="https://za.pinterest.com/phuthumanem/"><img src="images/pinterest.png" alt="Pinterest"></a>
+                <a href="https://telegram.org/"><img src="images/telegram.png" alt="Telegram"></a>
+                <a href="https://www.facebook.com/maximus_maliemah"><img src="images/facebook.png" alt="Facebook"></a>
+            </div>
         </div>
-        <img src="images/rocket.png" class="rocket">
 
+        <img src="images/rocket.png" class="rocket" alt="Rocket">
 
 
         <script>
-            var countDownDate = new Date("Jan 26, 2025 00:00:00").getTime();
+            //Countdown Timer
+            var countDownDate = new Date("Feb 10, 2025 00:00:00").getTime();
             var x = setInterval(function () {
                 var now = new Date().getTime();
                 var distance = countDownDate - now;
-
                 var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                 var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
 
                 document.getElementById("days").innerHTML = days;
                 document.getElementById("hours").innerHTML = hours;
@@ -78,15 +100,13 @@
                     document.getElementById("minutes").innerHTML = "00";
                     document.getElementById("seconds").innerHTML = "00";
                 }
-
             }, 1000);
 
+            // Toggling the "Learn More" text
             function toggleText() {
                 var text = document.getElementById("infoText");
                 var triangleImage = document.querySelector(".content button img");
-
                 text.classList.toggle("show");
-
 
                 if (text.classList.contains("show")) {
                     triangleImage.style.transform = "rotate(90deg)";
@@ -95,18 +115,47 @@
                 }
             }
 
+            // Function to adjust the width of the email input
+            function adjustInputWidth() {
+                var emailInput = document.getElementById("emailInput");
+                var maxLength = 54;
+                if (emailInput.value.length > maxLength) {
+                    emailInput.value = emailInput.value.substring(0, maxLength);
+                }
+                emailInput.style.width = Math.max(260, emailInput.value.length * 10) + "px";
+            }
 
 
+            document.getElementById("emailInput").addEventListener("focus", function () {
+                this.classList.add("expanded");
+            });
+
+            document.getElementById("emailInput").addEventListener("blur", function () {
+                this.classList.remove("expanded");
+            });
+
+            document.getElementById("emailInput").addEventListener("input", adjustInputWidth);
 
 
+            document.querySelector('form[name="subscribe"]').addEventListener('submit', function (event) {
+                event.preventDefault();
+
+
+                document.getElementById("thankYouMessage").classList.remove("thank-you-hidden");
+
+
+                document.querySelector('.subscription').classList.add("hidden");
+
+                fetch("/", {
+                    method: "POST",
+                    body: new FormData(this),
+                })
+                    .then(() => alert("Thank you for subscribing!"))
+                    .catch((error) => alert("Oops! There was a problem submitting your form. Please try again."));
+            });
         </script>
 
-
     </div>
-
-
-
-
 </body>
 
 </html>
